@@ -116,10 +116,18 @@ class ViewController: UIViewController, WKNavigationDelegate {
                 if host.contains(website) {
                     decisionHandler(.allow)
                     return
+                } else {
+                    let ac = UIAlertController(title: "We are very sorry", message: "The website is blocked.", preferredStyle: .alert)
+                    
+                    ac.addAction(UIAlertAction(title: "Continue", style: .cancel, handler: nil))
+                    
+                    present(ac, animated: true)
+                    webView.load(URLRequest(url: URL(string: "https://" + websites[0])!))
                 }
                 
             }
         }
+        
         decisionHandler(.cancel)
     }
 }

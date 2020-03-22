@@ -35,7 +35,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
         guard let wesitesToLoad = selectedWebsite else {
             return
         }
-        
+        navigationItem.largeTitleDisplayMode = .never
         let url = URL(string: "https://" + (wesitesToLoad))!
             
         webView.load(URLRequest(url: url))

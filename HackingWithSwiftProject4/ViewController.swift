@@ -14,19 +14,30 @@ class ViewController: UIViewController, WKNavigationDelegate {
     // Properties
     var webView: WKWebView!
     var progressView: UIProgressView!
-    
+    var theWebsites: [String]?
+    var selectedWebsite: String?
     override func loadView() {
         webView = WKWebView()
         webView.navigationDelegate = self
         view = webView
     }
     
-    var websites = ["apple.com", "hackingwithswift.com"]
+        
+  
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         // Have to start with https:// for it to process
-        let url = URL(string: "https://" + websites[0])!
+        guard let websites = theWebsites else {
+            return
+        }
+        guard let wesitesToLoad = selectedWebsite else {
+            return
+        }
+        
+        let url = URL(string: "https://" + (wesitesToLoad))!
+            
         webView.load(URLRequest(url: url))
         webView.allowsBackForwardNavigationGestures = true
         
@@ -78,6 +89,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
         }
     }
     @objc func openTapped() {
+        guard let websites = theWebsites else {
+            return
+        }
         let ac = UIAlertController(title: "Open page...", message: nil, preferredStyle: .actionSheet)
         
         // Apple.com option, Invoke openPage Function when tapped
@@ -114,7 +128,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
         navigationAction: WKNavigationAction, decisionHandler:
         @escaping (WKNavigationActionPolicy) -> Void) {
         let url = navigationAction.request.url
-        
+        guard let websites = theWebsites else {
+            return
+        }
         var a = 1
         // Not all urls have host
         if let host = url?.host {
@@ -142,6 +158,16 @@ class ViewController: UIViewController, WKNavigationDelegate {
         
         decisionHandler(.cancel)
         
+    }
+    // Appear when view is on
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.hidesBarsOnTap = true
+    }
+    // Disappear when view is hidden
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.hidesBarsOnTap = false
     }
     
     

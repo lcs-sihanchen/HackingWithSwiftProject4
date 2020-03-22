@@ -110,25 +110,34 @@ class ViewController: UIViewController, WKNavigationDelegate {
         @escaping (WKNavigationActionPolicy) -> Void) {
         let url = navigationAction.request.url
         
+        var a = 1
         // Not all urls have host
         if let host = url?.host {
-            for website in websites {
-                if host.contains(website) {
-                    decisionHandler(.allow)
-                    return
-                } else {
-                    let ac = UIAlertController(title: "We are very sorry", message: "The website is blocked.", preferredStyle: .alert)
-                    
-                    ac.addAction(UIAlertAction(title: "Continue", style: .cancel, handler: nil))
-                    
-                    present(ac, animated: true)
-                    webView.load(URLRequest(url: URL(string: "https://" + websites[0])!))
+            
+            if a==1 {
+                for website in websites {
+                    if host.contains(website) {
+                        decisionHandler(.allow)
+                        a = 2
+                        return
+                    }
                 }
+                
+            } else if a==2 {
+                
+                let ac = UIAlertController(title: "We are very sorry", message: "The website is blocked.", preferredStyle: .alert)
+                
+                ac.addAction(UIAlertAction(title: "Continue", style: .cancel, handler: nil))
+                
+                present(ac, animated: true)
+                webView.load(URLRequest(url: URL(string: "https://" + websites[0])!))
                 
             }
         }
         
         decisionHandler(.cancel)
+        
     }
+    
+    
 }
-

@@ -57,8 +57,13 @@ class ViewController: UIViewController, WKNavigationDelegate {
         // Get a refresh button, when tapped, webView reloads
         let refresh = UIBarButtonItem(barButtonSystemItem: .refresh, target: webView, action: #selector(webView.reload))
         
+        let goBack = UIBarButtonItem(title: "Back", style: .plain, target: webView, action: #selector(webView.goBack))
+        
+        
+        let goForward = UIBarButtonItem(title: "Forward", style: .plain, target: webView, action: #selector(webView.goForward))
+        
         // Add those two into the tool bar items
-        toolbarItems = [progressButton, spacer, refresh]
+        toolbarItems = [progressButton, spacer, goBack, goForward, refresh]
         
         // Show the hidden tool bar
         navigationController?.isToolbarHidden = false
